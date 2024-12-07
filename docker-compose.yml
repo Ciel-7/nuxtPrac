@@ -1,0 +1,52 @@
+version: '3.9'
+services:
+  backend:
+    container_name: backend
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    # command: tail -f /dev/null # コンテナ初回起動時はこれを実行する
+    command: python3 ./myproject/manage.py runserver 0.0.0.0:8000 # 2回目以降はこれを実行
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/usr/src/app
+    tty: true
+    stdin_open: true
+    depends_on:
+      - db
+
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    command: sh -c "yarn && yarn dev" # コンテナ内でファイル生成後はこれをONにする
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/app:/usr/src/app
+      - nuxt_node_modules:/usr/src/app/node_modules
+    tty: true
+    environment:
+      - HOST=0.0.0.0
+      - port=3000
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    tty: true
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+  nuxt_node_modules:
