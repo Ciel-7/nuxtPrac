@@ -21,8 +21,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-    command: sh -c "yarn && yarn dev" # コンテナ内でファイル生成後はこれをONにする
-    ports:
+    command: sh -c "yarn && yarn dev" # 2回目以降はこれを実行
       - "3000:3000"
     volumes:
       - ./frontend/app:/usr/src/app
