@@ -5,8 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.backend
-    # command: tail -f /dev/null # コンテナ初回起動時はこれを実行する
-    command: python3 ./myproject/manage.py runserver 0.0.0.0:8000 # 2回目以降はこれを実行
+    # コンテナ初回起動時はこれを実行する
+    command: tail -f /dev/null
+    # 2回目以降はこれを実行
+    # command: python3 ./myproject/manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     volumes:
@@ -21,7 +23,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-    command: sh -c "yarn && yarn dev" # 2回目以降はこれを実行
+    # 2回目以降はこれを実行
+    # command: sh -c "yarn && yarn dev"
+    ports:
       - "3000:3000"
     volumes:
       - ./frontend/app:/usr/src/app
