@@ -28,8 +28,8 @@ const handleLogin = async () => {
         // 成功
         if (response.error === null) {
             navigateTo('/');
-        // 失敗
-        }else {
+            // 失敗
+        } else {
             errorMessage.value = 'ログインに失敗しました。メールアドレスまたはパスワードを確認してください。';
         }
     } catch (error) {
@@ -54,7 +54,7 @@ const handleLogin = async () => {
                     <div class="field">
                         <div class="ui left icon input">
                             <i class="user icon"></i>
-                            <input type="text" name="email" placeholder="E-mail address"  v-model="email" required>
+                            <input type="text" name="email" placeholder="E-mail address" v-model="email" required>
                         </div>
                     </div>
                     <div class="field">
@@ -68,7 +68,7 @@ const handleLogin = async () => {
             </form>
 
             <div class="ui message">
-                New to us? <NuxtLink to="/register-user"><a href="#">Register</a></NuxtLink>
+                New to us? <NuxtLink to="/user/register"><a href="#">Register</a></NuxtLink>
             </div>
 
             <div class="ui horizontal divider">
@@ -79,6 +79,7 @@ const handleLogin = async () => {
                 <i class="github icon"></i>
                 GitHub でログイン
             </button>
+
         </div>
     </div>
 </template>

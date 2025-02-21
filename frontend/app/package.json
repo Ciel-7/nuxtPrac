@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.1.0",
-    "@sidebase/nuxt-auth": "^0.10.0",
+    "@sidebase/nuxt-auth": "https://pkg.pr.new/@sidebase/nuxt-auth@985",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
     "ioredis": "^5.4.2",

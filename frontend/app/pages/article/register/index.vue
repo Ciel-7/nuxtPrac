@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import { getUserIdByOAuthUserInfo } from '../../../utils/Common';
+
 definePageMeta({
-    // 未ログインユーザがページを開くと、ログイン画面に遷移
-    auth: {
-        unauthenticatedOnly: false,
-        navigateUnauthenticatedTo: '/login'
-    }
+  auth: {
+    unauthenticatedOnly: false,
+    navigateUnauthenticatedTo: '/login'
+  },
 });
 
 const {
     data,
-} = useAuth()
+} = useAuth();
 
 const title = ref('');
 const body = ref('');
@@ -18,7 +19,7 @@ const successMessage = ref('');
 const errorMessage = ref('');
 const isWorking = ref(false);
 
-console.log(data.value.user);
+// console.log(data.value.user);
 
 const topics = await $fetch('/api/topic', {
     method: 'GET',
@@ -31,7 +32,13 @@ async function registerArticle(){
     try {
         isWorking.value = true;
 
-        const res = await $fetch('/api/article', {
+        let userId = data.value.user.id;
+        const providerName = data.value.user.providerName;
+        if (providerName !== "credentials") {
+            userId = getUserIdByOAuthUserInfo(providerName, userId);
+        }
+
+        const res = await $fetch('/api/article/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -40,7 +47,7 @@ async function registerArticle(){
                 title: title.value,
                 body: body.value,
                 topics: selectedTopics.value,
-                id: data.value.user.id
+                id: userId
             }
         });
 
@@ -55,6 +62,8 @@ async function registerArticle(){
             successMessage.value = ''
         }
     } catch (error) {
+        errorMessage.value = error.message;
+        successMessage.value = ''
         console.log(error);
     } finally {
         isWorking.value = false;

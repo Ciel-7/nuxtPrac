@@ -31,13 +31,7 @@ export default NuxtAuthHandler({
     callbacks: {
         // 1. 最初のログイン時のみ DB から取得したカスタムIDを JWT に保存
         async jwt({ token, user, account, profile, isNewUser }) {
-            console.log('コールバック、JWT');
-            console.log(token);
-            console.log(user);
-            console.log(account);
-            console.log(profile);
-            console.log(isNewUser);
-            
+            // JWT初期生成時はセッションにプロバイダー情報を格納する
             if(account){
                 token.providerName = account.provider;
             }
@@ -45,8 +39,6 @@ export default NuxtAuthHandler({
             return token;
         },
         async session({ session, token }) {
-            console.log('コールバック、セッション');
-            console.log(token);
             session.user.id = token.sub;
             session.user.providerName = token.providerName;
             return session;
@@ -56,9 +48,8 @@ export default NuxtAuthHandler({
         // OAuthでログインしたユーザが記事の投稿ができるようにUserテーブルに新規ユーザを追加する。
         // この時追加するレコードには、OAuthプロバイダーのアカウントのユーザ名とメールアドレス、IDが入る。
         async signIn(message) {
-            console.log("イベント、サインイン");
             message.user.test = 'test';
-            console.log(message);
+
             if (message.account?.type === "oauth") {
                 const id = parseInt(message.profile?.id, 10) || null;
                 const email = message.profile?.email || null;

@@ -12,7 +12,20 @@ export default defineNuxtConfig({
   auth: {
     globalAppMiddleware: true,
     provider: {
-      type: 'authjs'
+      type: 'authjs',
     }
   }
+  // auth: {
+  //   isEnabled: true,
+  //   disableServerSideAuth: false,
+  //   globalAppMiddleware: true,
+  //   provider: {
+  //     type: "authjs",
+  //     trustHost: false,
+  //   },
+  //   sessionRefresh: {
+  //     enablePeriodically: 60 * 1000, // refresh every x seconds
+  //     enableOnWindowFocus: true,
+  //   },
+  // }
 })

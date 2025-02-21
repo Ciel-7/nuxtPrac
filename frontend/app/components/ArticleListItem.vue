@@ -2,6 +2,10 @@
 import { formatDate } from '../utils/Common'
 
 const props = defineProps({
+    id: {
+        type: Number,
+        default: 0
+    },
     title: {
         type: String,
         default: 'Title'
@@ -21,7 +25,7 @@ const formatedDate = formatDate(new Date(props.createdAt), "-");
 
 <template>
     <div class="ui card visible">
-        <NuxtLink to="#" class="content">
+        <NuxtLink v-bind:to="{ name: 'article-id', params: { id: id } }" class="content">
             <div class="ui header">{{ title }}</div>
             <div class="ui item">{{ author }}</div>
             <div class="ui item">{{ formatedDate }}</div>

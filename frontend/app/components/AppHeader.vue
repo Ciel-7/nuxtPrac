@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-  const {
-    status,
-    data,
-    signOut
-  } = useAuth()
+const {
+  status,
+  data,
+  signOut
+} = useAuth()
 
-  const isAuthenticated = computed(() => status.value === 'authenticated');
-  const isUnauthenticated = computed(() => status.value === 'unauthenticated');
+const isAuthenticated = computed(() => status.value === 'authenticated');
+const isUnauthenticated = computed(() => status.value === 'unauthenticated');
 </script>
 
 <template>
@@ -20,13 +20,13 @@
       </div>
       <div class="right menu">
         <div v-if="isUnauthenticated" class="item">
-          <NuxtLink to="/login">
+          <NuxtLink to="/auth/login">
             <span>Login</span>
           </NuxtLink>
         </div>
 
         <div v-if="isAuthenticated" class="item">
-          <NuxtLink to="/userpage/${data.value.user.id}">
+          <NuxtLink v-bind:to="{ name: 'user-id', params: { id: data.user.id } }">
             <span>My Page</span>
           </NuxtLink>
         </div>

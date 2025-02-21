@@ -6,3 +6,13 @@ export const formatDate = (date: Date, sep=""): string => {
   
     return `${yyyy}${sep}${mm}${sep}${dd}`;
 }
+
+export const getUserIdByOAuthUserInfo = async (providerName: String, providerId: String): Promise<int> => {
+    const res = await $fetch(`/api/user?providerName=${providerName}&providerId=${providerId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    return res.result.id;
+}
